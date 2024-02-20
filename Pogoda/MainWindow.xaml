@@ -1,0 +1,10 @@
+﻿<Window x:Class="pogoda.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        Title="Sprawdz pogode" Height="450" Width="800">
+    <Grid>
+        <m:Map x:Name="MyMap" MouseDoubleClick="doubleClick" />
+        <Label x:Name="WeatherInfoLabel" Content="Informacje o pogodzie..." HorizontalAlignment="Left"    Margin="10,10,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
