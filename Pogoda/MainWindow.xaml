@@ -4,7 +4,8 @@
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         Title="Sprawdz pogode" Height="450" Width="800">
     <Grid>
-        <m:Map x:Name="MyMap" MouseDoubleClick="doubleClick" />
+        <m:Map x:Name="MyMap" MouseDoubleClick="doubleClick" Height="353" VerticalAlignment="Top" Margin="0,81,0,0" />
         <Label x:Name="WeatherInfoLabel" Content="Informacje o pogodzie..." HorizontalAlignment="Left"    Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="FutureWeatherInfoLabel" Content="Prognoza pogody za 3 godziny..." HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

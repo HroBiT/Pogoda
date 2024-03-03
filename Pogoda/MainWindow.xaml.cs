@@ -26,19 +26,36 @@ namespace pogoda
         {
             var point = e.GetPosition(MyMap);
             var location = MyMap.ViewportPointToLocation(point);
+
+            var pin = new Pushpin();
+            pin.Location = location;
+            MyMap.Children.Clear();
+            MyMap.Children.Add(pin);
             
+
             using (var httpClient = new HttpClient())
             {
-                var response = await httpClient.GetAsync($"http://api.openweathermap.org/data/2.5/weather?lat={location.Latitude}&lon={location.Longitude}&appid={ApiKey}&units=metric");
-                var content = await response.Content.ReadAsStringAsync();
-                var json = JObject.Parse(content);
+                var currentResponse = await httpClient.GetAsync($"http://api.openweathermap.org/data/2.5/weather?lat={location.Latitude}&lon={location.Longitude}&appid={ApiKey}&units=metric&lang=pl");
+                var currentContent = await currentResponse.Content.ReadAsStringAsync();
+                var currentJson = JObject.Parse(currentContent);
 
-                var weatherDescription = json["weather"][0]["description"].ToString();
-                var temperature = json["main"]["temp"].ToString();
-                var Feels = json["main"]["feels_like"].ToString();
-                var humidity = json["main"]["humidity"].ToString();
+                var weatherDescription = currentJson["weather"][0]["description"].ToString();
+                var temperature = currentJson["main"]["temp"].ToString();
+                var Feels = currentJson["main"]["feels_like"].ToString();
+                var humidity = currentJson["main"]["humidity"].ToString();
 
                 WeatherInfoLabel.Content = $"Pogoda: {weatherDescription}, Temperatura: {temperature}°C, Odczuwalna temperatura: {Feels}°C, Wilgotność: {humidity}%";
+
+                var forecastResponse = await httpClient.GetAsync($"http://api.openweathermap.org/data/2.5/forecast?lat={location.Latitude}&lon={location.Longitude}&appid={ApiKey}&units=metric&lang=pl");
+                var forecastContent = await forecastResponse.Content.ReadAsStringAsync();
+                var forecastJson = JObject.Parse(forecastContent);
+
+                var futureWeatherDescription = forecastJson["list"][0]["weather"][0]["description"].ToString();
+                var futureTemperature = forecastJson["list"][0]["main"]["temp"].ToString();
+                var futureFeels = forecastJson["list"][0]["main"]["feels_like"].ToString();
+                var futureHumidity = forecastJson["list"][0]["main"]["humidity"].ToString();
+
+                FutureWeatherInfoLabel.Content = $"Pogoda za 3 godziny: {futureWeatherDescription}, Temperatura: {futureTemperature}°C, Odczuwalna temperatura: {futureFeels}°C, Wilgotność: {futureHumidity}%";
             }
         }
     }
